@@ -11,7 +11,7 @@ import UIKit
 
 class GraphView : UIView {
     
-    var amplitude : CGFloat = 5.0 {
+    var amplitude : CGFloat = 40.0 {
         didSet {
             setNeedsDisplay()
         }
@@ -58,8 +58,8 @@ class GraphView : UIView {
             let y = self.amplitude * sin(i/frame.width * period * 2 * CGFloat(M_PI)) + offset
             CGContextAddLineToPoint(context, i, y);
         }
-        CGContextSetLineJoin(context, CGLineJoin.Bevel)
-        CGContextSetLineCap(context, CGLineCap.Round)
+        //CGContextSetLineJoin(context, CGLineJoin.Bevel)
+        //CGContextSetLineCap(context, CGLineCap.Round)
         CGContextStrokePath(context);
     }
 }

@@ -13,7 +13,7 @@ import UIKit
 class PanelView : UIView {
     
     var delegate : PanelViewDelegate?
-    var onSliderChange : ((CGFloat) -> ())!
+    var onSliderChange : ((CGFloat) -> ())?
         
     weak var slider : UISlider!
     weak var stepper : UIStepper!
@@ -35,7 +35,10 @@ class PanelView : UIView {
         stepper.minimumValue = 0;
         stepper.maximumValue = 100;
         stepper.stepValue = 1;
-        stepper.addTarget(self, action: "stepperChanged:", forControlEvents: UIControlEvents.ValueChanged)
+        stepper.value = 0;
+        stepper.addTarget(self, action: "stepperChanged:",
+            forControlEvents: UIControlEvents.ValueChanged)
+        
         
         addSubview(stepper)
         self.stepper = stepper
@@ -50,7 +53,11 @@ class PanelView : UIView {
     }
     
     func sliderChanged(slider : UISlider) {
-        onSliderChange(CGFloat(slider.value))
+        if let onSliderChange = self.onSliderChange {
+            onSliderChange(CGFloat(slider.value))
+        } else {
+            print ("Nastav funkci nebo se nebude dit nic!")
+        }
     }
     
     func stepperChanged(stepper: UIStepper) {

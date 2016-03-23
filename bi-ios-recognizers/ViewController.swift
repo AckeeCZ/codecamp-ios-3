@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, PanelViewDelegate {
     
     weak var graphView : GraphView!
     weak var panelView : PanelView!
@@ -27,37 +27,39 @@ class ViewController: UIViewController {
         self.graphView = gv
         
         
-        /*let pv = PanelView(frame: CGRectZero)
+        
+        let pv = PanelView(frame: CGRectZero)
         pv.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
         pv.delegate = self
         
         
-        pv.onSliderChange = { [weak self] (value : CGFloat) in
+        pv.onSliderChange = { [weak self]  (value : CGFloat) in
             self?.graphView.amplitude = value
         }
         
         view.addSubview(pv)
-        self.panelView = pv*/
+        panelView = pv
     }
     
     
+    
+    
     //MARK: PanelViewDelegate
-    /*func sliderDidChange(slider: UISlider, panel: PanelView) {
-        self.graphView.amplitude = CGFloat(slider.value);
+    func sliderDidChange(slider: UISlider, panel: PanelView) {
+       // self.graphView.amplitude = CGFloat(slider.value);
         
     }
     
     func stepperDidChange(stepper: UIStepper, panel: PanelView) {
         self.graphView.period = CGFloat(stepper.value);
         
-    }*/
+    }
     
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.graphView.frame = CGRectMake(8, 20 + 8, CGRectGetWidth(self.view.bounds) - 16, 200);
-        //self.panelView.frame = CGRectMake(8, 20 + 16 + 200, CGRectGetWidth(self.view.bounds) - 16, 128);
+        self.panelView.frame = CGRectMake(8, 20 + 16 + 200, CGRectGetWidth(self.view.bounds) - 16, 128);
         
         
     }
@@ -66,7 +68,32 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tapReco = UITapGestureRecognizer(target: self,
+            action: "tapReco:")
+        tapReco.numberOfTapsRequired = 1
+        tapReco.numberOfTouchesRequired = 1
         
+        let doubleTapReco = UITapGestureRecognizer(target: self,
+            action: "doubleTapReco:")
+        doubleTapReco.numberOfTapsRequired = 2
+        
+        tapReco.requireGestureRecognizerToFail(doubleTapReco)
+        
+        self.view.addGestureRecognizer(doubleTapReco)
+        self.view.addGestureRecognizer(tapReco)
+        
+        
+        
+    }
+    
+    func tapReco(reco : UITapGestureRecognizer) {
+       // print(reco.view)
+        print("tapped")
+    }
+    
+    func doubleTapReco(reco : UITapGestureRecognizer) {
+        
+        print("Double tapped")
     }
     
     /*func pan(reco : UIGestureRecognizer) {

@@ -82,6 +82,9 @@ class ViewController: UIViewController, PanelViewDelegate {
         self.view.addGestureRecognizer(doubleTapReco)
         self.view.addGestureRecognizer(tapReco)
         
+        let panReco = UIPanGestureRecognizer(target: self
+            , action: "pan:")
+        graphView.addGestureRecognizer(panReco);
         
         
     }
@@ -96,19 +99,21 @@ class ViewController: UIViewController, PanelViewDelegate {
         print("Double tapped")
     }
     
-    /*func pan(reco : UIGestureRecognizer) {
+    func pan(reco : UIGestureRecognizer) {
         let point = reco.locationInView(self.panelView)
+        
         switch(reco.state) {
         case .Began: break;
         case .Changed:
-            self.graphView.offset = self.graphView.center.y + point.y
+            self.graphView.offset = self.graphView.center.y
+                + point.y
         default:
             return
     }
         
         
         
-    }*/
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

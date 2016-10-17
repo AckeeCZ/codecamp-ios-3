@@ -18,18 +18,18 @@ class ViewController: UIViewController, PanelViewDelegate {
     
     override func loadView() {
         self.view = UIView()
-        view.backgroundColor = .whiteColor()
+        view.backgroundColor = .white
         
-        let gv = GraphView(frame: CGRectZero)
-        gv.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
+        let gv = GraphView(frame: CGRect.zero)
+        gv.autoresizingMask = UIViewAutoresizing.flexibleWidth;
         
         self.view.addSubview(gv)
         self.graphView = gv
         
         
         
-        let pv = PanelView(frame: CGRectZero)
-        pv.autoresizingMask = UIViewAutoresizing.FlexibleWidth;
+        let pv = PanelView(frame: CGRect.zero)
+        pv.autoresizingMask = UIViewAutoresizing.flexibleWidth;
         pv.delegate = self
         
         
@@ -45,21 +45,21 @@ class ViewController: UIViewController, PanelViewDelegate {
     
     
     //MARK: PanelViewDelegate
-    func sliderDidChange(slider: UISlider, panel: PanelView) {
+    func sliderDidChange(_ slider: UISlider, panel: PanelView) {
        // self.graphView.amplitude = CGFloat(slider.value);
         
     }
     
-    func stepperDidChange(stepper: UIStepper, panel: PanelView) {
+    func stepperDidChange(_ stepper: UIStepper, panel: PanelView) {
         self.graphView.period = CGFloat(stepper.value);
         
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.graphView.frame = CGRectMake(8, 20 + 8, CGRectGetWidth(self.view.bounds) - 16, 200);
-        self.panelView.frame = CGRectMake(8, 20 + 16 + 200, CGRectGetWidth(self.view.bounds) - 16, 128);
+        self.graphView.frame = CGRect(x: 8, y: 20 + 8, width: self.view.bounds.width - 16, height: 200);
+        self.panelView.frame = CGRect(x: 8, y: 20 + 16 + 200, width: self.view.bounds.width - 16, height: 128);
         
         
     }
@@ -69,42 +69,42 @@ class ViewController: UIViewController, PanelViewDelegate {
         super.viewDidLoad()
         
         let tapReco = UITapGestureRecognizer(target: self,
-            action: "tapReco:")
+            action: #selector(ViewController.tapReco(_:)))
         tapReco.numberOfTapsRequired = 1
         tapReco.numberOfTouchesRequired = 1
         
         let doubleTapReco = UITapGestureRecognizer(target: self,
-            action: "doubleTapReco:")
+            action: #selector(ViewController.doubleTapReco(_:)))
         doubleTapReco.numberOfTapsRequired = 2
         
-        tapReco.requireGestureRecognizerToFail(doubleTapReco)
+        tapReco.require(toFail: doubleTapReco)
         
         self.view.addGestureRecognizer(doubleTapReco)
         self.view.addGestureRecognizer(tapReco)
         
         let panReco = UIPanGestureRecognizer(target: self
-            , action: "pan:")
+            , action: #selector(ViewController.pan(_:)))
         graphView.addGestureRecognizer(panReco);
         
         
     }
     
-    func tapReco(reco : UITapGestureRecognizer) {
+    func tapReco(_ reco : UITapGestureRecognizer) {
        // print(reco.view)
         print("tapped")
     }
     
-    func doubleTapReco(reco : UITapGestureRecognizer) {
+    func doubleTapReco(_ reco : UITapGestureRecognizer) {
         
         print("Double tapped")
     }
     
-    func pan(reco : UIGestureRecognizer) {
-        let point = reco.locationInView(self.panelView)
+    func pan(_ reco : UIGestureRecognizer) {
+        let point = reco.location(in: self.panelView)
         
         switch(reco.state) {
-        case .Began: break;
-        case .Changed:
+        case .began: break;
+        case .changed:
             self.graphView.offset = self.graphView.center.y
                 + point.y
         default:

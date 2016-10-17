@@ -21,12 +21,12 @@ class PanelView : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.lightGrayColor()
+        backgroundColor = UIColor.lightGray
         
         let slider = UISlider()
         slider.minimumValue = 0
         slider.maximumValue = 100
-        slider.addTarget(self, action: "sliderChanged:", forControlEvents: UIControlEvents.ValueChanged)
+        slider.addTarget(self, action: #selector(PanelView.sliderChanged(_:)), for: UIControlEvents.valueChanged)
         
         addSubview(slider)
         self.slider = slider
@@ -36,8 +36,8 @@ class PanelView : UIView {
         stepper.maximumValue = 100;
         stepper.stepValue = 1;
         stepper.value = 0;
-        stepper.addTarget(self, action: "stepperChanged:",
-            forControlEvents: UIControlEvents.ValueChanged)
+        stepper.addTarget(self, action: #selector(PanelView.stepperChanged(_:)),
+            for: UIControlEvents.valueChanged)
         
         
         addSubview(stepper)
@@ -47,12 +47,12 @@ class PanelView : UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.slider.frame = CGRectMake(8, 8, CGRectGetWidth(self.bounds) - 16, 44);
-        self.stepper.frame = CGRectMake(8, 8 + 44+8, CGRectGetWidth(self.bounds) - 16, 44);
+        self.slider.frame = CGRect(x: 8, y: 8, width: self.bounds.width - 16, height: 44);
+        self.stepper.frame = CGRect(x: 8, y: 8 + 44+8, width: self.bounds.width - 16, height: 44);
         
     }
     
-    func sliderChanged(slider : UISlider) {
+    func sliderChanged(_ slider : UISlider) {
         if let onSliderChange = self.onSliderChange {
             onSliderChange(CGFloat(slider.value))
         } else {
@@ -60,7 +60,7 @@ class PanelView : UIView {
         }
     }
     
-    func stepperChanged(stepper: UIStepper) {
+    func stepperChanged(_ stepper: UIStepper) {
         delegate?.stepperDidChange(stepper, panel: self)
     }    
     
@@ -73,7 +73,7 @@ class PanelView : UIView {
 protocol PanelViewDelegate {
     
     
-    func sliderDidChange(slider : UISlider, panel:PanelView)
-    func stepperDidChange(stepper : UIStepper, panel:PanelView)
+    func sliderDidChange(_ slider : UISlider, panel:PanelView)
+    func stepperDidChange(_ stepper : UIStepper, panel:PanelView)
     
 }

@@ -31,13 +31,13 @@ class GraphView : UIView {
    
     override func layoutSubviews() {
         super.layoutSubviews()
-        offset = CGRectGetHeight(self.bounds) / 2.0
+        offset = self.bounds.height / 2.0
 
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.lightGrayColor()
+        self.backgroundColor = UIColor.lightGray
     }
     
     
@@ -47,20 +47,24 @@ class GraphView : UIView {
     }
     
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         let context = UIGraphicsGetCurrentContext();
-        CGContextSetStrokeColorWithColor(context, UIColor.redColor().CGColor);
-        CGContextSetLineWidth(context, 2);
-        CGContextMoveToPoint(context, 0, offset);
-        for (var i : CGFloat = 0; i <  frame.width; i += 1) {
-            let y = self.amplitude * sin(i/frame.width * period * 2 * CGFloat(M_PI)) + offset
-            CGContextAddLineToPoint(context, i, y);
+        context?.setStrokeColor(UIColor.red.cgColor);
+        context?.setLineWidth(2);
+        context?.move(to: CGPoint(x: 0, y: offset));
+        
+        
+        let range = 0 ..< Int(frame.width)
+        for i in range {
+            let x = CGFloat(i)
+            let y = self.amplitude * sin(x/frame.width * period * 2 * CGFloat(M_PI)) + offset
+            context?.addLine(to: CGPoint(x: x, y: y));
         }
         //CGContextSetLineJoin(context, CGLineJoin.Bevel)
         //CGContextSetLineCap(context, CGLineCap.Round)
-        CGContextStrokePath(context);
+        context?.strokePath();
     }
 }
     
